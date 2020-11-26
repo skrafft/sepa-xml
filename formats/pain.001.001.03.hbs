@@ -19,43 +19,44 @@
         {{/if}}
       </InitgPty>
     </GrpHdr>
+    {{#each _payments.payments}}
     <PmtInf>
-      <PmtInfId>{{_payments.info.id}}</PmtInfId>
-      <PmtMtd>{{_payments.info.method}}</PmtMtd>
-      <BtchBookg>{{_payments.info.batchBooking}}</BtchBookg>
-      <NbOfTxs>{{_payments.info.transactionCount}}</NbOfTxs>
-      <CtrlSum>{{_payments.info.transactionControlSum}}</CtrlSum>
-      {{#if _payments.info.serviceLevel}}
+      <PmtInfId>{{info.id}}</PmtInfId>
+      <PmtMtd>{{info.method}}</PmtMtd>
+      <BtchBookg>{{info.batchBooking}}</BtchBookg>
+      <NbOfTxs>{{info.transactionCount}}</NbOfTxs>
+      <CtrlSum>{{info.transactionControlSum}}</CtrlSum>
+      {{#if info.serviceLevel}}
       <PmtTpInf>
         <SvcLvl>
-          <Cd>{{_payments.info.serviceLevel}}</Cd>
+          <Cd>{{info.serviceLevel}}</Cd>
         </SvcLvl>
       </PmtTpInf>
       {{/if}}
-      <ReqdExctnDt>{{formatDate _payments.info.when}}</ReqdExctnDt>
+      <ReqdExctnDt>{{formatDate info.when}}</ReqdExctnDt>
       <Dbtr>
-        <Nm>{{_payments.info.senderName}}</Nm>
+        <Nm>{{info.senderName}}</Nm>
       </Dbtr>
       <DbtrAcct>
         <Id>
-          <IBAN>{{_payments.info.senderIBAN}}</IBAN>
+          <IBAN>{{info.senderIBAN}}</IBAN>
         </Id>
       </DbtrAcct>
-      {{#if _payments.info.bic}}
+      {{#if info.bic}}
         <DbtrAgt>
           <FinInstnId>
-            <BIC>{{_payments.info.bic}}</BIC>
+            <BIC>{{info.bic}}</BIC>
           </FinInstnId>
         </DbtrAgt>
       {{/if}}
-      {{#each _payments.transactions}}
+      {{#each transactions}}
         <CdtTrfTxInf>
           <PmtId>
             <InstrId>{{endToEndId}}</InstrId>
             <EndToEndId>{{endToEndId}}</EndToEndId>
           </PmtId>
           <Amt>
-            <InstdAmt Ccy="{{../_payments.info.currency}}">{{amount}}</InstdAmt>
+            <InstdAmt Ccy="{{../info.currency}}">{{amount}}</InstdAmt>
           </Amt>
           {{#if bic}}
             <CdtrAgt>
@@ -78,5 +79,6 @@
         </CdtTrfTxInf>
       {{/each}}
     </PmtInf>
+    {{/each}}
   </CstmrCdtTrfInitn>
 </Document>
