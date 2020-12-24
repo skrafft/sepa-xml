@@ -33,6 +33,13 @@
         </SvcLvl>
       </PmtTpInf>
       {{/if}}
+      {{#if info.localInstrument}}
+      <PmtTpInf> 
+        <LclInstrm>
+          <Prtry>{{info.localInstrument}}</Prtry>
+        </LclInstrm>
+      </PmtTpInf>
+      {{/if}}
       <ReqdExctnDt>{{formatDate info.when}}</ReqdExctnDt>
       <Dbtr>
         <Nm>{{info.senderName}}</Nm>
@@ -43,40 +50,56 @@
         </Id>
       </DbtrAcct>
       {{#if info.bic}}
-        <DbtrAgt>
-          <FinInstnId>
-            <BIC>{{info.bic}}</BIC>
-          </FinInstnId>
-        </DbtrAgt>
+      <DbtrAgt>
+        <FinInstnId>
+          <BIC>{{info.bic}}</BIC>
+        </FinInstnId>
+      </DbtrAgt>
       {{/if}}
       {{#each transactions}}
-        <CdtTrfTxInf>
-          <PmtId>
-            <InstrId>{{endToEndId}}</InstrId>
-            <EndToEndId>{{endToEndId}}</EndToEndId>
-          </PmtId>
-          <Amt>
-            <InstdAmt Ccy="{{../info.currency}}">{{amount}}</InstdAmt>
-          </Amt>
-          {{#if bic}}
-            <CdtrAgt>
-              <FinInstnId>
-                <BIC>{{bic}}</BIC>
-              </FinInstnId>
-            </CdtrAgt>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>{{endToEndId}}</InstrId>
+          <EndToEndId>{{endToEndId}}</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="{{../info.currency}}">{{amount}}</InstdAmt>
+        </Amt>
+        {{#if bic}}
+        <CdtrAgt>
+          <FinInstnId>
+            <BIC>{{bic}}</BIC>
+          </FinInstnId>
+        </CdtrAgt>
+        {{/if}}
+        <Cdtr>
+          <Nm>{{senderName}}</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            {{#if recipientIBAN}}
+            <IBAN>{{recipientIBAN}}</IBAN>
+            {{/if}}
+            {{#if recipientAccountNr}}
+            <Othr>
+              <Id>{{recipientAccountNr}}</Id>
+            </Othr>
+            {{/if}}
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          {{#if paymentDescription}}
+          <Ustrd>{{paymentDescription}}</Ustrd>
           {{/if}}
-          <Cdtr>
-            <Nm>{{senderName}}</Nm>
-          </Cdtr>
-          <CdtrAcct>
-            <Id>
-              <IBAN>{{recipientIBAN}}</IBAN>
-            </Id>
-          </CdtrAcct>
-          <RmtInf>
-            <Ustrd>{{paymentDescription}}</Ustrd>
-          </RmtInf>
-        </CdtTrfTxInf>
+          {{#if isrReference}}
+          <Strd>
+            <CdtrRefInf>
+              <Ref>{{isrReference}}</Ref>
+            </CdtrRefInf>
+          </Strd>
+          {{/if}}
+        </RmtInf>
+      </CdtTrfTxInf>
       {{/each}}
     </PmtInf>
     {{/each}}
