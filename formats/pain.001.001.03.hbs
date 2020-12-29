@@ -88,15 +88,14 @@
           </Id>
         </CdtrAcct>
         <RmtInf>
-          {{#if paymentDescription}}
-          <Ustrd>{{paymentDescription}}</Ustrd>
-          {{/if}}
-          {{#if isrReference}}
+          {{#if ../info.localInstrument}}
           <Strd>
             <CdtrRefInf>
-              <Ref>{{isrReference}}</Ref>
+              <Ref>{{paymentDescription}}</Ref>
             </CdtrRefInf>
           </Strd>
+          {{else}}
+            <Ustrd>{{paymentDescription}}</Ustrd>
           {{/if}}
         </RmtInf>
       </CdtTrfTxInf>
